@@ -306,6 +306,7 @@ const SignUp = () => {
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   placeholder="Create a strong password"
+                  autoComplete="new-password"
                   className={`w-full py-3 px-4 bg-white/10 backdrop-blur-lg rounded-lg text-base text-white/95 border transition-all outline-none ${
                     errors.password
                       ? "border-red-400 bg-red-100/10"
@@ -347,6 +348,7 @@ const SignUp = () => {
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   placeholder="Confirm your password"
+                  autoComplete="new-password"
                   className={`w-full py-3 px-4 bg-white/10 backdrop-blur-lg rounded-lg text-base text-white/95 border transition-all outline-none ${
                     errors.confirmPassword
                       ? "border-red-400 bg-red-100/10"

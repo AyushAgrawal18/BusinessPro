@@ -5,6 +5,7 @@ services:
     env: node
     plan: free
     region: oregon
+    rootDir: my-project/api
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /
