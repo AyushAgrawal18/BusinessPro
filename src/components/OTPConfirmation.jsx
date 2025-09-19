@@ -15,6 +15,7 @@ const OTPConfirmation = () => {
   const [resendLoading, setResendLoading] = useState(false);
   const [resendCount, setResendCount] = useState(0);
   const [showResendSuccess, setShowResendSuccess] = useState(false);
+  const [canResend, setCanResend] = useState(false);
 
   // Refs for OTP inputs
   const inputRefs = useRef([]);
@@ -290,11 +291,11 @@ const OTPConfirmation = () => {
                   <button
                     type="button"
                     onClick={handleResend}
-                    disabled={resendLoading || resendCount >= 3}
+                    disabled={resendLoading || resendCount >= 3 || !canResend}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       resendCount >= 3
                         ? "bg-gray-500/20 text-gray-400 cursor-not-allowed"
-                        : resendLoading
+                        : resendLoading || !canResend
                         ? "bg-white/10 text-white/70 cursor-not-allowed"
                         : "bg-white/20 text-white/90 hover:bg-white/30 hover:text-white border border-white/30 hover:border-white/50"
                     }`}
