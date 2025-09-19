@@ -11,7 +11,6 @@ const OTPConfirmation = () => {
   const [error, setError] = useState("");
   const [timeLeft, setTimeLeft] = useState(60); // 1 minute for resend
   const [codeExpiry, setCodeExpiry] = useState(300); // 5 minutes for code expiration
-  const [canResend, setCanResend] = useState(false);
   const [isCodeExpired, setIsCodeExpired] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [resendCount, setResendCount] = useState(0);
