@@ -46,7 +46,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-600 pt-8 text-center text-gray-400">
-          © 2024 BusinessPro. All rights reserved.
+          © 2025 BusinessPro. All rights reserved.
         </div>
       </div>
     </footer>

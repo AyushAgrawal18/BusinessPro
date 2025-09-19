@@ -1,24 +1,39 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useMobileMenu } from "../hooks/useMobileMenu";
 
 const Header = () => {
   const { isOpen, toggleMenu, closeMenu } = useMobileMenu();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const navItems = [
-    { href: "#home", label: "Home" },
-    { href: "#features", label: "Features" },
-    { href: "#pricing", label: "Pricing" },
-    { href: "#about", label: "About" },
-    { href: "#contact", label: "Contact" },
+    { href: "#home", label: "Home", route: "/" },
+    { href: "#features", label: "Features", route: "/" },
+    { href: "#pricing", label: "Pricing", route: "/" },
+    { href: "#about", label: "About", route: "/" },
+    { href: "#contact", label: "Contact", route: "/" },
   ];
 
-  const handleNavClick = (e, href) => {
+  const handleNavClick = (e, href, route) => {
     e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
+
+    // If we're not on the home page, navigate to home first
+    if (location.pathname !== route) {
+      navigate(route);
+      // Wait for navigation to complete, then scroll
+      setTimeout(() => {
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      // We're already on the right page, just scroll
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
     }
     closeMenu();
   };
@@ -42,7 +57,7 @@ const Header = () => {
               <li key={item.href}>
                 <a
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
+                  onClick={(e) => handleNavClick(e, item.href, item.route)}
                   className="text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300 cursor-pointer"
                 >
                   {item.label}
@@ -53,6 +68,13 @@ const Header = () => {
 
           {/* Navigation Actions */}
           <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => navigate("/signup")}
+              className="hidden sm:inline-block px-6 py-3 border-2 border-indigo-500 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 hover:transform hover:-translate-y-0.5 transition-all duration-300"
+            >
+              Sign Up
+            </button>
             <button
               type="button"
               onClick={() => navigate("/signin")}
@@ -79,14 +101,24 @@ const Header = () => {
                   <li key={item.href}>
                     <a
                       href={item.href}
-                      onClick={(e) => handleNavClick(e, item.href)}
+                      onClick={(e) => handleNavClick(e, item.href, item.route)}
                       className="block py-3 px-4 text-gray-600 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 cursor-pointer"
                     >
                       {item.label}
                     </a>
                   </li>
                 ))}
-                <li className="pt-2 border-t border-gray-100">
+                <li className="pt-2 border-t border-gray-100 space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigate("/signup");
+                      closeMenu();
+                    }}
+                    className="block w-full py-3 px-4 text-center border-2 border-indigo-500 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition-all duration-200"
+                  >
+                    Sign Up
+                  </button>
                   <button
                     type="button"
                     onClick={() => {

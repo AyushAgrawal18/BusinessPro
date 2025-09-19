@@ -9,6 +9,8 @@ import CallToAction from "./components/CallToAction";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
+import OTPConfirmation from "./components/OTPConfirmation";
 
 // Home page component
 const HomePage = () => (
@@ -31,6 +33,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/otp-confirmation" element={<OTPConfirmation />} />
         </Routes>
       </Router>
     </div>

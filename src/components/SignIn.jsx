@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import authAPI from "../services/authAPI";
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
@@ -9,6 +12,7 @@ const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [apiError, setApiError] = useState("");
 
   // Email validation
   const validateEmail = () => {
@@ -40,25 +44,43 @@ const SignIn = () => {
   };
 
   // Form submit handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isEmailValid = validateEmail();
     const isPasswordValid = validatePassword();
+
     if (isEmailValid && isPasswordValid) {
       setLoading(true);
-      setTimeout(() => {
+      setApiError("");
+
+      try {
+        // Call signin API
+        const response = await authAPI.signin({
+          email: email,
+          password: password,
+        });
+
+        if (response.success) {
+          setSuccess(true);
+          setTimeout(() => {
+            // In a real app, you would redirect to the dashboard
+            // For now, we'll show a success message and clear the form
+            alert("Sign in successful! Welcome to BusinessPro.");
+            setSuccess(false);
+            setEmail("");
+            setPassword("");
+            setRememberMe(false);
+            setLoading(false);
+
+            // You can navigate to dashboard here
+            // navigate("/dashboard");
+          }, 1500);
+        }
+      } catch (error) {
+        console.error("Signin error:", error);
+        setApiError(error.message || "Signin failed. Please try again.");
         setLoading(false);
-        setSuccess(true);
-        setTimeout(() => {
-          alert(
-            "Sign in successful! In a real app, you would be redirected to the dashboard."
-          );
-          setSuccess(false);
-          setEmail("");
-          setPassword("");
-          setRememberMe(false);
-        }, 2000);
-      }, 1500);
+      }
     }
   };
 
@@ -235,6 +257,14 @@ const SignIn = () => {
                 </span>
               )}
             </button>
+
+            {/* API Error message */}
+            {apiError && (
+              <div className="mt-3 px-4 py-3 rounded-lg text-sm bg-red-400/20 text-red-200 border border-red-400/30 backdrop-blur-lg">
+                {apiError}
+              </div>
+            )}
+
             {/* Success message */}
             <div
               className={`transition-all text-center mt-2 px-4 py-3 rounded-lg text-base bg-emerald-400/20 text-white font-medium border border-emerald-400/30 backdrop-blur-lg ${
@@ -254,7 +284,7 @@ const SignIn = () => {
               <button
                 type="button"
                 className="text-white/90 font-semibold hover:text-white underline ml-1 bg-transparent border-none p-0 cursor-pointer"
-                onClick={() => alert('Redirect to sign up page')}
+                onClick={() => navigate("/signup")}
               >
                 Create one
               </button>
