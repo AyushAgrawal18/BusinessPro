@@ -1,29 +1,22 @@
 import React from "react";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import DashboardPreview from "./components/DashboardPreview";
-import Features from "./components/Features";
-import Stats from "./components/Stats";
-import Testimonials from "./components/Testimonials";
-import CallToAction from "./components/CallToAction";
-import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
-import OTPConfirmation from "./components/OTPConfirmation";
 
-// Home page component
-const HomePage = () => (
-  <>
-    <Hero />
-    <DashboardPreview />
-    <Features />
-    <Stats />
-    <Testimonials />
-    <CallToAction />
-    <Footer />
-  </>
-);
+// Import all components from the components directory
+import {
+  Header,
+  Home,
+  AboutPage,
+  PricingPage,
+  ContactPage,
+  DashboardPage,
+  FeaturesPage,
+  PrivacyPolicyPage,
+  TermsOfServicePage,
+  NotFoundPage,
+  SignIn,
+  SignUp,
+  OTPConfirmation,
+} from "./components";
 
 function App() {
   return (
@@ -31,10 +24,25 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/* Main Pages */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+
+          {/* Authentication Pages */}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/otp-confirmation" element={<OTPConfirmation />} />
+
+          {/* Legal Pages */}
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+
+          {/* 404 Page - Must be last */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </div>

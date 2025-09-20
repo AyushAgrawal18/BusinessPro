@@ -9,31 +9,37 @@ const Header = () => {
 
   const navItems = [
     { href: "#home", label: "Home", route: "/" },
-    { href: "#features", label: "Features", route: "/" },
-    { href: "#pricing", label: "Pricing", route: "/" },
-    { href: "#about", label: "About", route: "/" },
-    { href: "#contact", label: "Contact", route: "/" },
+    { href: "/features", label: "Features", route: "/features" },
+    { href: "/pricing", label: "Pricing", route: "/pricing" },
+    { href: "/about", label: "About", route: "/about" },
+    { href: "/contact", label: "Contact", route: "/contact" },
   ];
 
   const handleNavClick = (e, href, route) => {
     e.preventDefault();
 
-    // If we're not on the home page, navigate to home first
-    if (location.pathname !== route) {
-      navigate(route);
-      // Wait for navigation to complete, then scroll
-      setTimeout(() => {
+    // For hash-based navigation within the home page
+    if (href.startsWith("#")) {
+      // If we're not on the home page, navigate to home first
+      if (location.pathname !== "/") {
+        navigate("/");
+        // Wait for navigation to complete, then scroll
+        setTimeout(() => {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      } else {
+        // We're already on the right page, just scroll
         const target = document.querySelector(href);
         if (target) {
           target.scrollIntoView({ behavior: "smooth" });
         }
-      }, 100);
-    } else {
-      // We're already on the right page, just scroll
-      const target = document.querySelector(href);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
       }
+    } else {
+      // For regular page navigation
+      navigate(route);
     }
     closeMenu();
   };
